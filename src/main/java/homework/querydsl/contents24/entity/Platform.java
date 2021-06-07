@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @ToString(of = {"id", "name", "link"})
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Platform {
