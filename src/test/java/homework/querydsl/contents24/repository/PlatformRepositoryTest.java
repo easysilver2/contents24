@@ -83,6 +83,24 @@ class PlatformRepositoryTest {
     }
 
     @Test
+    void 플랫폼_수정() {
+        //given
+        Platform orgPlatform = Platform.builder()
+                .name("인프런")
+                .link("inflearn.com")
+                .build();
+        repository.save(orgPlatform);
+
+        //when
+        orgPlatform.setName("인프런222");
+        orgPlatform.setLink("inflearn222.com");
+        Platform newPlatform = repository.findById(orgPlatform.getId()).get();
+
+        //then
+        assertThat(newPlatform.getName()).isEqualTo("인프런222");
+    }
+
+    @Test
     void 플랫폼_삭제() {
         //given
         Platform platform = Platform.builder()
@@ -100,22 +118,8 @@ class PlatformRepositoryTest {
     }
 
     @Test
-    void 플랫폼_수정() {
-        //given
-        Platform orgPlatform = Platform.builder()
-                .name("인프런")
-                .link("inflearn.com")
-                .build();
-        repository.save(orgPlatform);
+    void 플랫폼_이름으로_조회() {
 
-        orgPlatform.setName("인프런222");
-        orgPlatform.setLink("inflearn222.com");
-
-        //when
-        repository.save(orgPlatform);
-        Platform newPlatform = repository.findById(orgPlatform.getId()).get();
-
-        //then
-        assertThat(newPlatform.getName()).isEqualTo("인프런222");
     }
+
 }
