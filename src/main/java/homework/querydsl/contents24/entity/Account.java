@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @ToString(of = {"id", "accountId"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,7 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Account {
 
     // 계정 번호
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "account_no")
     private Long id;
 
