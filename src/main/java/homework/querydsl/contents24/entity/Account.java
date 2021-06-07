@@ -1,14 +1,12 @@
 package homework.querydsl.contents24.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
+@ToString(of = {"id", "accountId"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -40,13 +38,11 @@ public class Account {
     public Account(String accountId, Platform platform, Employee employee) {
         this.accountId = accountId;
 
-        if (platform != null) {
+        if (platform != null)
             changePlatform(platform);
-        }
 
-        if (employee != null) {
+        if (employee != null)
             changeEmployee(employee);
-        }
     }
 
     public void changeEmployee(Employee employee) {
