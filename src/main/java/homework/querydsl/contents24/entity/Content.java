@@ -9,7 +9,7 @@ import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.PROTECTED;
 
 @ToString(of = {"id", "name"})
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
 public class Content {
