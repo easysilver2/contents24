@@ -1,5 +1,6 @@
 package homework.querydsl.contents24.entity;
 
+import homework.querydsl.contents24.dto.ContentRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,6 +35,11 @@ public class Content {
         if (platform != null) {
             changePlatform(platform);
         }
+    }
+
+    public Content update(ContentRequestDto requestDto) {
+        this.name = requestDto.getName();
+        return this;
     }
 
     public void changePlatform(Platform platform) {
