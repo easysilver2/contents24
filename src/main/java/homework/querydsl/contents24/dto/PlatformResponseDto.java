@@ -5,12 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @NoArgsConstructor
 @Getter @Setter
 public class PlatformResponseDto {
+
     private Long id;
     private String name;
     private String link;
+    //소속 컨텐츠 리스트
+    private List<ContentResponseDto> contents;
 
     public PlatformResponseDto(String name, String link) {
         this.name = name;

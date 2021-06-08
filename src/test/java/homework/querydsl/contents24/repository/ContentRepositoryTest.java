@@ -143,4 +143,35 @@ class ContentRepositoryTest {
         List<Content> contents = repository.findAll();
         assertThat(contents.size()).isEqualTo(0);
     }
+
+    @Test
+    void 플랫폼으로_조회() {
+        //given
+        Platform platform = Platform.builder()
+                .name("인프런")
+                .link("Inflearn.com")
+                .build();
+        platformRepository.save(platform);
+
+        repository.save(Content.builder()
+                .name("실전! Querydsl")
+                .platform(platform)
+                .build());
+
+        repository.save(Content.builder()
+                .name("실전! Spring Data JPA")
+                .platform(platform)
+                .build());
+
+        //when
+        List<Content> contents = repository.findByPlatform(platform);
+        for (Content ct : contents) {
+            System.out.println("\t\t>>>>> name = " + ct.getName());
+        }
+
+        //then
+        assertThat(contents.size()).isEqualTo(2);
+        assertThat(contents.get(0).getName()).isEqualTo("실전! Querydsl");
+
+    }
 }
