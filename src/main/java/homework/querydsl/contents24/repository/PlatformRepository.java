@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface PlatformRepository extends JpaRepository<Platform, Long> {
+public interface PlatformRepository extends JpaRepository<Platform, Long>, PlatformRepositoryCustom {
 
     @Query("SELECT p FROM Platform p ORDER BY p.id DESC")
     List<Platform> findAll();

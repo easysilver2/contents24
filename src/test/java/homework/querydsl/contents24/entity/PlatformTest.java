@@ -1,6 +1,7 @@
 package homework.querydsl.contents24.entity;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,9 @@ import java.util.List;
 import static homework.querydsl.contents24.entity.QPlatform.platform;
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * 플랫폼 Querydsl Test
+ */
 @Transactional
 @SpringBootTest
 class PlatformTest {
@@ -118,6 +122,52 @@ class PlatformTest {
         assertThat(queryResults.getLimit()).isEqualTo(1);
         assertThat(queryResults.getResults().size()).isEqualTo(1);
         assertThat(queryResults.getOffset()).isEqualTo(0);
+    }
+
+    @Test
+    void 이름and링크_검색() {
+        //given
+        String platformNameParam = "인프런";
+        String platformLinkParam = "inflearn";
+
+        //when
+        List<Platform> result = searchPlatform(platformNameParam, platformLinkParam);
+
+        //then
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    @Test
+    void 조건없이_검색() {
+        //when
+        List<Platform> result = searchPlatform(null, null);
+
+        for (Platform pf : result) {
+            System.out.println("pf.getName() = " + pf.getName());
+            System.out.println("pf.getLink() = " + pf.getLink());
+        }
+
+        //then
+        assertThat(result.size()).isEqualTo(2);
+    }
+
+    /* 검색 조건 확인 */
+    private List<Platform> searchPlatform(String platformName, String link) {
+        return queryFactory
+                .selectFrom(platform)
+                .where(nameEq(platformName),
+                        linkLike(link))
+                .fetch();
+    }
+
+    /* 플랫폼명 검색 조건 추가 */
+    private BooleanExpression nameEq(String platformName) {
+        return platformName != null ? platform.name.eq(platformName) : null;
+    }
+
+    /* 링크 검색 조건 추가 */
+    private BooleanExpression linkLike(String link) {
+        return link != null ? platform.link.contains(link) : null;
     }
 
     @Test

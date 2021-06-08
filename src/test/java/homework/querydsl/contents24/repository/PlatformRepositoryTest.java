@@ -1,6 +1,9 @@
 package homework.querydsl.contents24.repository;
 
+import homework.querydsl.contents24.dto.PlatformResponseDto;
+import homework.querydsl.contents24.dto.PlatformSearchCondition;
 import homework.querydsl.contents24.entity.Platform;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -118,8 +121,18 @@ class PlatformRepositoryTest {
     }
 
     @Test
-    void 플랫폼_이름으로_조회() {
+    void 플랫폼_검색() {
+        //given
+        repository.save(Platform.builder()
+                .name("인프런")
+                .link("inflearn.com")
+                .build());
 
+        List<PlatformResponseDto> platforms = repository.search(new PlatformSearchCondition());
+        for (PlatformResponseDto platform : platforms) {
+            System.out.println("\t\t>>>>> platform.name = " + platform.getName());
+
+        }
     }
 
 }
