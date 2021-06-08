@@ -2,11 +2,12 @@ package homework.querydsl.contents24.controller;
 
 import homework.querydsl.contents24.dto.PlatformRequestDto;
 import homework.querydsl.contents24.dto.PlatformResponseDto;
+import homework.querydsl.contents24.dto.PlatformSearchCondition;
 import homework.querydsl.contents24.service.PlatformService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/platforms")
@@ -25,10 +26,12 @@ public class PlatformController {
 
     /**
      * 목록 조회
+     * 검색 조건(플랫폼명, 플랫폼 링크)
+     * @return
      */
     @GetMapping("/")
-    public List<PlatformResponseDto> list() {
-        return service.findAll();
+    public Page<PlatformResponseDto> list(PlatformSearchCondition condition, Pageable pageable) {
+        return service.search(condition, pageable);
     }
 
     /**
