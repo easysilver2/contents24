@@ -63,7 +63,7 @@ class PlatformTest {
     }
 
     @Test
-    void 페이징용_결과조회() {
+    void 결과조회() {
         //given
         QueryResults<Platform> results = queryFactory
                 .selectFrom(platform)
@@ -103,6 +103,21 @@ class PlatformTest {
         //then
         assertThat(platforms.size()).isEqualTo(4);
         assertThat(platforms.get(0).getName()).isEqualTo("노마드코더");
+    }
+
+    @Test
+    void 페이징_조회() {
+        QueryResults<Platform> queryResults = queryFactory
+                .selectFrom(platform)
+                .orderBy(platform.name.asc())
+                .offset(0)
+                .limit(1)
+                .fetchResults();
+
+        assertThat(queryResults.getTotal()).isEqualTo(2);
+        assertThat(queryResults.getLimit()).isEqualTo(1);
+        assertThat(queryResults.getResults().size()).isEqualTo(1);
+        assertThat(queryResults.getOffset()).isEqualTo(0);
     }
 
     @Test
