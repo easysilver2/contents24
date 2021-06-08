@@ -1,5 +1,7 @@
 package homework.querydsl.contents24.entity;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,30 +10,60 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
+import static homework.querydsl.contents24.entity.QPlatform.platform;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
 @SpringBootTest
 class PlatformTest {
 
-    @PersistenceContext
-    EntityManager em;
+    @PersistenceContext EntityManager em;
+    JPAQueryFactory queryFactory;
 
-    @Test
-    public void testEntity() {
+    @BeforeEach
+    public void before() {
+        queryFactory = new JPAQueryFactory(em);
+
         Platform platform1 = Platform.builder()
-                .name("Inflearn")
-                .link("Inflearn.com")
+                .name("인프런")
+                .link("inflearn.com")
                 .build();
 
         Platform platform2 = Platform.builder()
-                .name("Youtube")
-                .link("Youtube.com")
+                .name("유튜브")
+                .link("youtube.com")
                 .build();
 
         em.persist(platform1);
         em.persist(platform2);
+    }
 
+    @Test
+    public void 플랫폼_검색() {
+        Platform findPlatform = queryFactory
+                .select(platform)
+                .from(platform)
+                .where(platform.name.eq("인프런"))
+                .fetchOne();
+
+        assertThat(findPlatform.getName()).isEqualTo("인프런");
+    }
+
+    @Test
+    void 플랫폼_조건_검색() {
+        Platform findPlatform = queryFactory
+                .selectFrom(QPlatform.platform)
+                .where(QPlatform.platform.name.eq("유튜브")
+                        .and(QPlatform.platform.link.contains("youtube")))
+                .fetchOne();
+
+        assertThat(findPlatform.getLink()).isEqualTo("youtube.com");
+        assertThat(findPlatform.getName()).isEqualTo("유튜브");
+    }
+
+
+    @Test
+    public void testJPQL() {
         // 영속성 컨텍스트 초기화
         em.flush();
         em.clear();
@@ -46,7 +78,7 @@ class PlatformTest {
         }
 
         assertThat(platforms.size()).isEqualTo(2);
-        assertThat(platforms.get(0).getName()).isEqualTo("Inflearn");
+        assertThat(platforms.get(0).getName()).isEqualTo("인프런");
     }
 
 }
