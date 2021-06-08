@@ -1,5 +1,7 @@
 package homework.querydsl.contents24.repository;
 
+import homework.querydsl.contents24.dto.ContentResponseDto;
+import homework.querydsl.contents24.dto.ContentSearchCondition;
 import homework.querydsl.contents24.entity.Content;
 import homework.querydsl.contents24.entity.Platform;
 import org.junit.jupiter.api.Test;
@@ -7,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -172,6 +173,31 @@ class ContentRepositoryTest {
         //then
         assertThat(contents.size()).isEqualTo(2);
         assertThat(contents.get(0).getName()).isEqualTo("실전! Querydsl");
+    }
 
+    @Test
+    void 다중_조건_검색() {
+        //given
+        Platform platform = Platform.builder()
+                .name("인프런")
+                .link("Inflearn.com")
+                .build();
+        platformRepository.save(platform);
+
+        String contentName = "실전! Querydsl";
+        repository.save(Content.builder()
+                .name(contentName)
+                .platform(platform)
+                .build());
+
+        ContentSearchCondition condition = new ContentSearchCondition();
+        condition.setContentName(contentName);
+
+        //when
+        List<ContentResponseDto> result = repository.search(condition);
+
+        //then
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.get(0).getName()).isEqualTo(contentName);
     }
 }
