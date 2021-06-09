@@ -3,7 +3,6 @@ package homework.querydsl.contents24.repository;
 import homework.querydsl.contents24.dto.PlatformResponseDto;
 import homework.querydsl.contents24.dto.PlatformSearchCondition;
 import homework.querydsl.contents24.entity.Platform;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

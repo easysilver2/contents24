@@ -33,6 +33,7 @@ public class PlatformRepositoryCustomImpl implements PlatformRepositoryCustom {
     public List<PlatformResponseDto> search(PlatformSearchCondition condition) {
         return queryFactory
                 .select(Projections.bean(PlatformResponseDto.class,
+                        platform.id,
                         platform.name,
                         platform.link))
                 .from(platform)
@@ -50,10 +51,12 @@ public class PlatformRepositoryCustomImpl implements PlatformRepositoryCustom {
      */
     @Override
     public Page<PlatformResponseDto> search(PlatformSearchCondition condition, Pageable pageable) {
-        QueryResults<PlatformResponseDto> results = queryFactory.select(Projections.bean(
-                PlatformResponseDto.class,
-                platform.name,
-                platform.link))
+        QueryResults<PlatformResponseDto> results = queryFactory
+                .select(Projections.bean(
+                    PlatformResponseDto.class,
+                    platform.id,
+                    platform.name,
+                    platform.link))
                 .from(platform)
                 .where(nameEq(condition.getPlatformName()),
                         linkLike(condition.getPlatformLink()))
