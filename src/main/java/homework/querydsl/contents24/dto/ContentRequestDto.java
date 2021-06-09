@@ -20,4 +20,10 @@ public class ContentRequestDto {
                 .name(name)
                 .build();
     }
+
+    /* 입력 값 유효성 검증 */
+    public void checkValidation() {
+        if(name == null || name.isEmpty())
+            throw new IllegalArgumentException("컨텐츠명 입력 값이 없습니다.");
+    }
 }

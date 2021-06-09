@@ -1,13 +1,17 @@
 package homework.querydsl.contents24.controller;
 
 import homework.querydsl.contents24.dto.ContentRequestDto;
-import homework.querydsl.contents24.dto.ContentResponseDto;
+import homework.querydsl.contents24.dto.ContentSearchCondition;
 import homework.querydsl.contents24.service.ContentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+/**
+ * 컨텐츠 컨트롤러
+ */
 @RequiredArgsConstructor
 @RequestMapping("/contents")
 @RestController
@@ -16,42 +20,57 @@ public class ContentController {
     private final ContentService service;
 
     /**
-     * 컨텐츠 등록
+     * 신규 등록
+     * @param requestDto
+     * @return created Id
      */
     @PostMapping("/")
-    public Long register(ContentRequestDto requestDto) {
-        return service.register(requestDto);
+    public ResponseEntity register(ContentRequestDto requestDto) {
+        requestDto.checkValidation();
+        return new ResponseEntity(service.register(requestDto), HttpStatus.CREATED);
     }
 
     /**
-     * 컨텐츠 목록 조회
+     * 목록 조회(페이징| 검색 조건: 컨텐츠명, 플랫폼명)
+     * @param condition
+     * @param pageable
+     * @return Page<ContentResponseDto>
      */
     @GetMapping("/")
-    public List<ContentResponseDto> list() {
-        return service.findAll();
+    public ResponseEntity list(ContentSearchCondition condition, Pageable pageable) {
+        condition.checkValidation();
+        return new ResponseEntity(service.search(condition, pageable), HttpStatus.OK);
     }
 
     /**
-     * 컨텐츠 단건 상세 조회
+     * 상세 조회
+     * @param id
+     * @return ContentsResponseDto
      */
     @GetMapping("/{id}")
-    public ContentResponseDto detail(@PathVariable Long id) {
-        return service.detail(id);
+    public ResponseEntity detail(@PathVariable Long id) {
+        return new ResponseEntity(service.detail(id), HttpStatus.OK);
     }
 
     /**
-     * 컨텐츠 수정
+     * 수정
+     * @param id
+     * @param requestDto
+     * @return updated Id
      */
     @PutMapping("/{id}")
-    public Long update(@PathVariable Long id, ContentRequestDto requestDto) {
-        return service.update(id, requestDto);
+    public ResponseEntity update(@PathVariable Long id, ContentRequestDto requestDto) {
+        requestDto.checkValidation();
+        return new ResponseEntity(service.update(id, requestDto), HttpStatus.OK);
     }
 
     /**
-     * 컨텐츠 삭제
+     * 삭제
+     * @param id
+     * @return deleted Id
      */
     @DeleteMapping("/{id}")
-    public Long delete(@PathVariable Long id) {
-        return service.delete(id);
+    public ResponseEntity delete(@PathVariable Long id) {
+        return new ResponseEntity(service.delete(id), HttpStatus.OK);
     }
 }
