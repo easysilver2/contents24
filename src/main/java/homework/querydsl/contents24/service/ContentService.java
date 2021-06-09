@@ -105,6 +105,11 @@ public class ContentService {
         return contentId;
     }
 
+    /**
+     * 계정별 컨텐츠 목록 조회
+     * @param accountNo
+     * @return
+     */
     public List<ContentResponseDto> listByAccount(Long accountNo) {
         //계정 조회
         Account account = accountRepository.findById(accountNo)
