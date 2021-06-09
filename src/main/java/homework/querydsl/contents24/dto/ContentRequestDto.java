@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter @Setter
 public class ContentRequestDto {
 
+    private Long platformNo;
     private String name;
 
     public ContentRequestDto(String name) {
@@ -21,8 +22,17 @@ public class ContentRequestDto {
                 .build();
     }
 
-    /* 입력 값 유효성 검증 */
-    public void checkValidation() {
+    /* 신규 등록 입력 값 유효성 검증 */
+    public void checkValidationForCreate() {
+        if(platformNo == null)
+            throw new IllegalArgumentException("플랫폼 번호 값이 없습니다.");
+
+        if(name == null || name.isEmpty())
+            throw new IllegalArgumentException("컨텐츠명 입력 값이 없습니다.");
+    }
+
+    /* 수정 입력 값 유효성 검증 */
+    public void checkValidationForUpdate() {
         if(name == null || name.isEmpty())
             throw new IllegalArgumentException("컨텐츠명 입력 값이 없습니다.");
     }

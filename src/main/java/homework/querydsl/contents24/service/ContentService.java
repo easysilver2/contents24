@@ -4,7 +4,9 @@ import homework.querydsl.contents24.dto.ContentRequestDto;
 import homework.querydsl.contents24.dto.ContentResponseDto;
 import homework.querydsl.contents24.dto.ContentSearchCondition;
 import homework.querydsl.contents24.entity.Content;
+import homework.querydsl.contents24.entity.Platform;
 import homework.querydsl.contents24.repository.ContentRepository;
+import homework.querydsl.contents24.repository.PlatformRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class ContentService {
 
     private final ContentRepository repository;
+    private final PlatformRepository platformRepository;
 
     /**
      * 컨텐츠 신규 등록
@@ -26,7 +29,14 @@ public class ContentService {
      * @return
      */
     public Long register(ContentRequestDto requestDto) {
-        return repository.save(requestDto.toEntity()).getId();
+        //플랫폼 조회
+        Platform platform = platformRepository.findById(requestDto.getPlatformNo())
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" +
+                        requestDto.getPlatformNo()));
+
+        return repository.save(requestDto
+                .toEntity()
+                .changePlatform(platform)).getId();
     }
 
     /**

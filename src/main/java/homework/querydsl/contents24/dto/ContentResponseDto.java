@@ -11,11 +11,7 @@ public class ContentResponseDto {
 
     private Long id;
     private String name;
-
-    public ContentResponseDto(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private String platformName;
 
     public ContentResponseDto(Content entity) {
         this.id = entity.getId();

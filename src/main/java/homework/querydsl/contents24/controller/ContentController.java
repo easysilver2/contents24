@@ -26,7 +26,7 @@ public class ContentController {
      */
     @PostMapping("/")
     public ResponseEntity register(ContentRequestDto requestDto) {
-        requestDto.checkValidation();
+        requestDto.checkValidationForCreate();
         return new ResponseEntity(service.register(requestDto), HttpStatus.CREATED);
     }
 
@@ -60,7 +60,7 @@ public class ContentController {
      */
     @PutMapping("/{id}")
     public ResponseEntity update(@PathVariable Long id, ContentRequestDto requestDto) {
-        requestDto.checkValidation();
+        requestDto.checkValidationForUpdate();
         return new ResponseEntity(service.update(id, requestDto), HttpStatus.OK);
     }
 

@@ -42,8 +42,8 @@ public class Content {
         return this;
     }
 
-    public void changePlatform(Platform platform) {
+    public Content changePlatform(Platform platform) {
         this.platform = platform;
-        // TODO : 양방향 관계일 경우 별도로 설정
+        return this;
     }
 }

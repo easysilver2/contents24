@@ -32,7 +32,8 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
     @Override
     public List<ContentResponseDto> search(ContentSearchCondition condition) {
         return queryFactory
-                .select(Projections.bean(ContentResponseDto.class,
+                .select(Projections.fields(ContentResponseDto.class,
+                        platform.name.as("platformName"),
                         content.id,
                         content.name))
                 .from(content)
@@ -40,7 +41,7 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
                 .leftJoin(content.platform, platform)
                 .where(
                         platformNameEq(condition.getPlatformName()),
-                        contentNameEq(condition.getContentName()))
+                        contentNameLike(condition.getContentName()))
                 .fetch();
     }
 
@@ -53,14 +54,15 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
     @Override
     public Page<ContentResponseDto> search(ContentSearchCondition condition, Pageable pageable) {
         QueryResults<ContentResponseDto> results = queryFactory
-                .select(Projections.bean(ContentResponseDto.class,
+                .select(Projections.fields(ContentResponseDto.class,
+                        platform.name.as("platformName"),
                         content.id,
                         content.name))
                 .from(content)
                 //플랫폼 엔티티와 조인
                 .leftJoin(content.platform, platform)
                 .where(platformNameEq(condition.getPlatformName()),
-                        contentNameEq(condition.getContentName()))
+                        contentNameLike(condition.getContentName()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -77,7 +79,7 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
     }
 
     /* 컨텐츠명 검색 조건 추가 */
-    private BooleanExpression contentNameEq(String contentName) {
-        return contentName != null ? content.name.eq(contentName) : null;
+    private BooleanExpression contentNameLike(String contentName) {
+        return contentName != null ? content.name.contains(contentName) : null;
     }
 }
