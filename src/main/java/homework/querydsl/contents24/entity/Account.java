@@ -30,8 +30,8 @@ public class Account {
     // 사원 정보
     @ManyToOne(fetch = LAZY)
     @JoinColumns({
-            @JoinColumn(name = "employee_no", nullable = false),
-            @JoinColumn(name = "dept_no", nullable = false)
+            @JoinColumn(name = "dept_no", nullable = false),
+            @JoinColumn(name = "employee_no", nullable = false)
     })
     private Employee employee;
 
