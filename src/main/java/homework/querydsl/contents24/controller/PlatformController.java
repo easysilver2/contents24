@@ -1,7 +1,6 @@
 package homework.querydsl.contents24.controller;
 
 import homework.querydsl.contents24.dto.PlatformRequestDto;
-import homework.querydsl.contents24.dto.PlatformResponseDto;
 import homework.querydsl.contents24.dto.PlatformSearchCondition;
 import homework.querydsl.contents24.service.PlatformService;
 import lombok.RequiredArgsConstructor;
@@ -49,8 +48,8 @@ public class PlatformController {
      * @return
      */
     @GetMapping("/{id}")
-    public PlatformResponseDto detail(@PathVariable Long id) {
-        return service.detail(id);
+    public ResponseEntity detail(@PathVariable Long id) {
+        return new ResponseEntity(service.detail(id), HttpStatus.OK);
     }
 
     /**
