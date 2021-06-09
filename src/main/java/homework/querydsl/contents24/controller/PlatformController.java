@@ -44,6 +44,7 @@ public class PlatformController {
 
     /**
      * 상세
+     * 플랫폼 상세 정보 및 보유 컨텐츠 목록 반환
      * @param id
      * @return
      */
