@@ -7,6 +7,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+/**
+ * 플랫폼 Querydsl 인터페이스
+ */
 public interface PlatformRepositoryCustom {
 
     /* 페이징 없는 검색 조회 */

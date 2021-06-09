@@ -19,6 +19,9 @@ import static homework.querydsl.contents24.entity.QContent.content;
 import static homework.querydsl.contents24.entity.QPlatform.platform;
 import static homework.querydsl.contents24.entity.QPossession.possession;
 
+/**
+ * 컨텐츠 Querydsl 구현 클래스
+ */
 public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;

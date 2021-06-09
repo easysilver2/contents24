@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+/**
+ * 컨텐츠 레포지토리
+ */
 public interface ContentRepository extends JpaRepository<Content, Long>, ContentRepositoryCustom {
 
     @Query("SELECT c FROM Content c ORDER BY c.id DESC")

@@ -16,6 +16,9 @@ import java.util.List;
 
 import static homework.querydsl.contents24.entity.QPlatform.platform;
 
+/**
+ * 플랫폼 Querydsl 구현 클래스
+ */
 public class PlatformRepositoryCustomImpl implements PlatformRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
