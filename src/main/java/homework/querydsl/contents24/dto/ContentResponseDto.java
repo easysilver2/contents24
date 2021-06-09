@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @NoArgsConstructor
 @Getter @Setter
 public class ContentResponseDto {
@@ -12,6 +14,7 @@ public class ContentResponseDto {
     private Long id;
     private String name;
     private String platformName;
+    private List<String> accountList;
 
     public ContentResponseDto(Content entity) {
         this.id = entity.getId();

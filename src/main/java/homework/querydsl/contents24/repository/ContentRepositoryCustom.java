@@ -17,4 +17,7 @@ public interface ContentRepositoryCustom {
 
     /* 계정별 보유 컨텐츠 목록 조회 */
     List<ContentResponseDto> listByAccount(Long accountId);
+
+    /* 해당 컨텐츠의 보유 계정 목록 조회 */
+    List<String> accountListByContent(Long contentNo);
 }

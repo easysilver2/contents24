@@ -7,7 +7,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import homework.querydsl.contents24.dto.ContentResponseDto;
 import homework.querydsl.contents24.dto.ContentSearchCondition;
 import homework.querydsl.contents24.entity.QAccount;
-import homework.querydsl.contents24.entity.QPossession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -94,6 +93,22 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
                 .innerJoin(possession.content, content)
                 .innerJoin(possession.account, account)
                 .where(possession.account.id.eq(accountNo))
+                .fetch();
+    }
+
+    /**
+     * 단일 컨텐츠의 보유 계정 목록
+     * @param contentNo
+     * @return
+     */
+    @Override
+    public List<String> accountListByContent(Long contentNo) {
+        return queryFactory
+                .select(account.accountId)
+                .from(possession)
+                .innerJoin(possession.content, content)
+                .innerJoin(possession.account, account)
+                .where(possession.content.id.eq(contentNo))
                 .fetch();
     }
 

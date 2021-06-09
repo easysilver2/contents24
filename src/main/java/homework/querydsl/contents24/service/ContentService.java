@@ -72,7 +72,10 @@ public class ContentService {
         Content content = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 컨텐츠입니다. contentNo=" + id));
 
-        return new ContentResponseDto(content);
+        ContentResponseDto responseDto = new ContentResponseDto(content);
+        responseDto.setAccountList(repository.accountListByContent(id));
+
+        return responseDto;
     }
 
     /**
