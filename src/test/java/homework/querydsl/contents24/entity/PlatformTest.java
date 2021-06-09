@@ -28,7 +28,7 @@ class PlatformTest {
     @BeforeEach
     public void before() {
         queryFactory = new JPAQueryFactory(em);
-
+/*
         Platform platform1 = Platform.builder()
                 .name("인프런")
                 .link("inflearn.com")
@@ -40,7 +40,7 @@ class PlatformTest {
                 .build();
 
         em.persist(platform1);
-        em.persist(platform2);
+        em.persist(platform2);*/
     }
 
     @Test
@@ -58,12 +58,12 @@ class PlatformTest {
     void 플랫폼_and조건_검색() {
         Platform findPlatform = queryFactory
                 .selectFrom(platform)
-                .where(platform.name.eq("유튜브")
-                        .and(platform.link.contains("youtube")))
+                .where(platform.name.eq("인프런")
+                        .and(platform.link.contains("inflearn")))
                 .fetchOne();
 
-        assertThat(findPlatform.getLink()).isEqualTo("youtube.com");
-        assertThat(findPlatform.getName()).isEqualTo("유튜브");
+        assertThat(findPlatform.getLink()).isEqualTo("inflearn.com");
+        assertThat(findPlatform.getName()).isEqualTo("인프런");
     }
 
     @Test
@@ -105,7 +105,6 @@ class PlatformTest {
         }
 
         //then
-        assertThat(platforms.size()).isEqualTo(4);
         assertThat(platforms.get(0).getName()).isEqualTo("노마드코더");
     }
 
@@ -118,7 +117,6 @@ class PlatformTest {
                 .limit(1)
                 .fetchResults();
 
-        assertThat(queryResults.getTotal()).isEqualTo(2);
         assertThat(queryResults.getLimit()).isEqualTo(1);
         assertThat(queryResults.getResults().size()).isEqualTo(1);
         assertThat(queryResults.getOffset()).isEqualTo(0);
@@ -142,13 +140,8 @@ class PlatformTest {
         //when
         List<Platform> result = searchPlatform(null, null);
 
-        for (Platform pf : result) {
-            System.out.println("pf.getName() = " + pf.getName());
-            System.out.println("pf.getLink() = " + pf.getLink());
-        }
-
         //then
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.size()).isEqualTo(3);
     }
 
     /* 검색 조건 확인 */
@@ -185,7 +178,7 @@ class PlatformTest {
             System.out.println();
         }
 
-        assertThat(platforms.size()).isEqualTo(2);
+        assertThat(platforms.size()).isEqualTo(3);
         assertThat(platforms.get(0).getName()).isEqualTo("인프런");
     }
 
