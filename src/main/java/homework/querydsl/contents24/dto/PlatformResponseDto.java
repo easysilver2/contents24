@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -15,7 +16,7 @@ public class PlatformResponseDto {
     private String name;
     private String link;
     //소속 컨텐츠 리스트
-    private List<ContentResponseDto> contents;
+    private List<ContentResponseDto> contentsList = new ArrayList<>();
 
     public PlatformResponseDto(String name, String link) {
         this.name = name;
