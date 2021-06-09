@@ -26,8 +26,12 @@ public class PlatformController {
      * @return
      */
     @PostMapping("/")
-    public Long register(PlatformRequestDto requestDto) {
-        return service.register(requestDto);
+    public ResponseEntity register(PlatformRequestDto requestDto) {
+        // 입력 값 유효하지 않은 경우 400 리턴
+        if(requestDto.isNotValid())
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity(service.register(requestDto), HttpStatus.CREATED);
     }
 
     /**

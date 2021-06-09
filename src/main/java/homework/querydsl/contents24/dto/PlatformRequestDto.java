@@ -4,7 +4,9 @@ import homework.querydsl.contents24.entity.Platform;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @NoArgsConstructor
 @Getter @Setter
 public class PlatformRequestDto {
@@ -22,5 +24,19 @@ public class PlatformRequestDto {
                 .name(name)
                 .link(link)
                 .build();
+    }
+
+    /* 신규 등록 입력 값 유효성 검증 */
+    public boolean isNotValid() {
+        if (name == null || name.isEmpty()) {
+            log.info("Platform name is empty.");
+            return true;
+        }
+        if(link == null || name.isEmpty()) {
+            log.info("Platform link is empty.");
+            return true;
+        }
+
+        return false;
     }
 }
