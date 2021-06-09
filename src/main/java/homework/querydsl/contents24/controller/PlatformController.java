@@ -27,10 +27,7 @@ public class PlatformController {
      */
     @PostMapping("/")
     public ResponseEntity register(PlatformRequestDto requestDto) {
-        // 입력 값 유효하지 않은 경우 400 리턴
-        if(requestDto.isNotValid())
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-
+        requestDto.checkValidation();
         return new ResponseEntity(service.register(requestDto), HttpStatus.CREATED);
     }
 
@@ -42,10 +39,7 @@ public class PlatformController {
      */
     @GetMapping("/")
     public ResponseEntity list(PlatformSearchCondition condition, Pageable pageable) {
-        // 검색 조건이 유효하지 않은 경우 400 리턴
-        if (condition.isNotValid())
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-
+        condition.checkValidation();
         return new ResponseEntity<>(service.search(condition, pageable), HttpStatus.OK);
     }
 
@@ -66,8 +60,9 @@ public class PlatformController {
      * @return
      */
     @PutMapping("/{id}")
-    public Long update(@PathVariable Long id, PlatformRequestDto requestDto) {
-        return service.update(id, requestDto);
+    public ResponseEntity update(@PathVariable Long id, PlatformRequestDto requestDto) {
+        requestDto.checkValidation();
+        return new ResponseEntity(service.update(id, requestDto), HttpStatus.OK);
     }
 
     /**
@@ -76,8 +71,7 @@ public class PlatformController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public Long delete(@PathVariable Long id) {
-        return service.deleteById(id);
+    public ResponseEntity delete(@PathVariable Long id) {
+        return new ResponseEntity(service.deleteById(id), HttpStatus.OK);
     }
-
 }

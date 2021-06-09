@@ -16,14 +16,12 @@ public class PlatformSearchCondition {
     public static int PLATFORM_LINK_MAX_SIZE = 300;
 
     /* 검색 조건 유효성 검증 */
-    public boolean isNotValid() {
+    public void checkValidation() {
         if(platformName != null && platformName.length() > PLATFORM_NAME_MAX_SIZE)
-            return true;
+            throw new IllegalArgumentException("플랫폼명 최대 글자수를 초과하였습니다.");
 
         if(platformLink != null && platformLink.length() > PLATFORM_LINK_MAX_SIZE)
-            return true;
-
-        return false;
+            throw new IllegalArgumentException("링크 최대 글자수를 초과하였습니다.");
     }
 
 }

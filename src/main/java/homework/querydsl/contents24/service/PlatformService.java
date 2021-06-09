@@ -58,7 +58,6 @@ public class PlatformService {
      * @return responseDto
      */
     public PlatformResponseDto detail(Long id) {
-        //플랫폼 정보 조회
         Platform platform = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id));
 
@@ -78,12 +77,11 @@ public class PlatformService {
      * @return id
      */
     public Long update(Long id, PlatformRequestDto requestDto) {
-        // 수정 전 조회(영속 상태)
         Platform platform = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id));
 
         if(requestDto != null)
-            platform.update(requestDto);
+            repository.save(platform.update(requestDto));
 
         return platform.getId();
     }
@@ -94,11 +92,9 @@ public class PlatformService {
      * @return id
      */
     public Long deleteById(Long id) {
-        // 삭제 전 조회
         Long platformNo = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id)).getId();
 
-        // 삭제
         repository.deleteById(platformNo);
 
         return platformNo;

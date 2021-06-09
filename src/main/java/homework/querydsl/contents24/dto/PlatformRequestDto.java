@@ -27,16 +27,12 @@ public class PlatformRequestDto {
     }
 
     /* 신규 등록 입력 값 유효성 검증 */
-    public boolean isNotValid() {
-        if (name == null || name.isEmpty()) {
-            log.info("Platform name is empty.");
-            return true;
-        }
-        if(link == null || name.isEmpty()) {
-            log.info("Platform link is empty.");
-            return true;
-        }
+    public void checkValidation() {
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("플랫폼 이름 값이 입력되지 않았습니다.");
 
-        return false;
+        if(link == null || name.isEmpty())
+            throw new IllegalArgumentException("플랫폼 링크 값이 입력되지 않았습니다.");
     }
+
 }
