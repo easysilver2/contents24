@@ -6,6 +6,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import homework.querydsl.contents24.dto.ContentResponseDto;
 import homework.querydsl.contents24.dto.ContentSearchCondition;
+import homework.querydsl.contents24.entity.QAccount;
+import homework.querydsl.contents24.entity.QPossession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +15,10 @@ import org.springframework.data.domain.Pageable;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static homework.querydsl.contents24.entity.QAccount.account;
 import static homework.querydsl.contents24.entity.QContent.content;
 import static homework.querydsl.contents24.entity.QPlatform.platform;
+import static homework.querydsl.contents24.entity.QPossession.possession;
 
 public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
 
@@ -71,6 +75,26 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
         long total = results.getTotal();
 
         return new PageImpl<>(content, pageable, total);
+    }
+
+    /**
+     * 계정별 목록 조회
+     * @param accountNo
+     * @return
+     */
+    @Override
+    public List<ContentResponseDto> listByAccount(Long accountNo) {
+        return queryFactory
+                .select(Projections.fields(ContentResponseDto.class,
+                        platform.name.as("platformName"),
+                        content.id,
+                        content.name))
+                .from(possession)
+                .innerJoin(possession.content.platform, platform)
+                .innerJoin(possession.content, content)
+                .innerJoin(possession.account, account)
+                .where(possession.account.id.eq(accountNo))
+                .fetch();
     }
 
     /* 플랫폼명 검색 조건 추가 */

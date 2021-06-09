@@ -43,6 +43,17 @@ public class ContentController {
     }
 
     /**
+     * 계정별 목록 조회
+     * @param accountNo
+     * @return
+     */
+    @GetMapping("/account/{accountNo}")
+    public ResponseEntity listByAccount(@PathVariable Long accountNo) {
+        return new ResponseEntity(service.listByAccount(accountNo), HttpStatus.OK);
+
+    }
+
+    /**
      * 상세 조회
      * @param id
      * @return ContentsResponseDto

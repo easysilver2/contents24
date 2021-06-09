@@ -14,4 +14,7 @@ public interface ContentRepositoryCustom {
 
     /* 다중 조건 검색(페이징) */
     Page<ContentResponseDto> search(ContentSearchCondition condition, Pageable pageable);
+
+    /* 계정별 보유 컨텐츠 목록 조회 */
+    List<ContentResponseDto> listByAccount(Long accountId);
 }

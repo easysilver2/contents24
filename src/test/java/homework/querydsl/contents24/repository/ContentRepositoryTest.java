@@ -2,12 +2,12 @@ package homework.querydsl.contents24.repository;
 
 import homework.querydsl.contents24.dto.ContentResponseDto;
 import homework.querydsl.contents24.dto.ContentSearchCondition;
-import homework.querydsl.contents24.entity.Content;
-import homework.querydsl.contents24.entity.Platform;
+import homework.querydsl.contents24.entity.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -19,6 +19,7 @@ class ContentRepositoryTest {
 
     @Autowired ContentRepository repository;
     @Autowired PlatformRepository platformRepository;
+    @Autowired EntityManager em;
 
     @Test
     void 컨텐츠_등록() {
@@ -201,5 +202,46 @@ class ContentRepositoryTest {
         //then
         assertThat(result.size()).isEqualTo(1);
         assertThat(result.get(0).getName()).isEqualTo(contentName);
+    }
+
+    @Test
+    void 계정별_컨텐츠_조회() {
+        // 플랫폼 생성
+        Platform platform = Platform.builder()
+                .name("Inflearn")
+                .link("Inflearn.com")
+                .build();
+        em.persist(platform);
+
+        // 컨텐트 생성
+        Content content = Content.builder()
+                .platform(platform)
+                .name("Start Querydsl")
+                .build();
+        em.persist(content);
+
+        // 사원 생성
+        Employee employee = Employee.builder()
+                .employeeNo(111L)
+                .deptNo(999L)
+                .name("leejieun")
+                .build();
+        em.persist(employee);
+
+        // 계정 생성
+        Account account = Account.builder()
+                .accountId("jelee@snack24h.com")
+                .employee(employee)
+                .platform(platform)
+                .build();
+        em.persist(account);
+
+        // 보유 데이터 생성
+        Possession possession = Possession.builder()
+                .content(content)
+                .account(account)
+                .build();
+
+        repository.listByAccount(1L);
     }
 }

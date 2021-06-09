@@ -3,8 +3,10 @@ package homework.querydsl.contents24.service;
 import homework.querydsl.contents24.dto.ContentRequestDto;
 import homework.querydsl.contents24.dto.ContentResponseDto;
 import homework.querydsl.contents24.dto.ContentSearchCondition;
+import homework.querydsl.contents24.entity.Account;
 import homework.querydsl.contents24.entity.Content;
 import homework.querydsl.contents24.entity.Platform;
+import homework.querydsl.contents24.repository.AccountRepository;
 import homework.querydsl.contents24.repository.ContentRepository;
 import homework.querydsl.contents24.repository.PlatformRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class ContentService {
 
     private final ContentRepository repository;
     private final PlatformRepository platformRepository;
+    private final AccountRepository accountRepository;
 
     /**
      * 컨텐츠 신규 등록
@@ -99,4 +102,11 @@ public class ContentService {
         return contentId;
     }
 
+    public List<ContentResponseDto> listByAccount(Long accountNo) {
+        //계정 조회
+        Account account = accountRepository.findById(accountNo)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 계정입니다. accountNo=" + accountNo));
+
+        return repository.listByAccount(account.getId());
+    }
 }
