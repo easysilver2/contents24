@@ -1,3 +1,14 @@
-INSERT INTO platform(platform_name, platform_link) VALUES('인프런', 'inflearn.com');
-INSERT INTO platform(platform_name, platform_link) VALUES('유튜브', 'youtube.com');
-INSERT INTO platform(platform_name, platform_link) VALUES('프로그래머스', 'programmers.com');
+-- 플랫폼 테스트 데이터
+INSERT INTO platform(PLATFORM_NO, platform_name, platform_link) VALUES(1, '인프런', 'inflearn.com');
+INSERT INTO platform(PLATFORM_NO, platform_name, platform_link) VALUES(2, '생활코딩', 'opentutorials.org');
+INSERT INTO platform(PLATFORM_NO, platform_name, platform_link) VALUES(3, '프로그래머스', 'programmers.co.kr');
+
+-- 컨텐츠 테스트 데이터
+INSERT INTO CONTENT(CONTENT_NO, PLATFORM_NO, CONTENT_NAME) VALUES (1, 1, '실전! Querydsl');
+INSERT INTO CONTENT(CONTENT_NO, PLATFORM_NO, CONTENT_NAME) VALUES (2, 1, '실전! Spring Data JPA');
+INSERT INTO CONTENT(CONTENT_NO, PLATFORM_NO, CONTENT_NAME) VALUES (4, 2, 'WEB 1');
+INSERT INTO CONTENT(CONTENT_NO, PLATFORM_NO, CONTENT_NAME) VALUES (5, 2, 'WEB 2');
+INSERT INTO CONTENT(CONTENT_NO, PLATFORM_NO, CONTENT_NAME) VALUES (6, 2, 'WEB 3');
+INSERT INTO CONTENT(CONTENT_NO, PLATFORM_NO, CONTENT_NAME) VALUES (7, 3, '어서와! 자료구조와 알고리즘은 처음이지?');
+INSERT INTO CONTENT(CONTENT_NO, PLATFORM_NO, CONTENT_NAME) VALUES (8, 3, '파이썬 입문');
+
