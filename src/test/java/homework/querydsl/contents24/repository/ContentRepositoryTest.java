@@ -178,8 +178,9 @@ class ContentRepositoryTest {
     @Test
     void 다중_조건_검색() {
         //given
+        String platformName = "인프런";
         Platform platform = Platform.builder()
-                .name("인프런")
+                .name(platformName)
                 .link("Inflearn.com")
                 .build();
         platformRepository.save(platform);
@@ -192,6 +193,7 @@ class ContentRepositoryTest {
 
         ContentSearchCondition condition = new ContentSearchCondition();
         condition.setContentName(contentName);
+        condition.setPlatformName(platformName);
 
         //when
         List<ContentResponseDto> result = repository.search(condition);

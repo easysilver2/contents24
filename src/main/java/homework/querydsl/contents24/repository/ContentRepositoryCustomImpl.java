@@ -39,7 +39,7 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
                 //플랫폼 엔티티와 조인
                 .leftJoin(content.platform, platform)
                 .where(
-                        //platformNameEq(condition.getPlatformName()),
+                        platformNameEq(condition.getPlatformName()),
                         contentNameEq(condition.getContentName()))
                 .fetch();
     }
