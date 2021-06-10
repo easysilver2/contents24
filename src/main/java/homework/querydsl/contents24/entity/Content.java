@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @ToString(of = {"id", "name"})
@@ -15,7 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Content {
 
     // 컨텐츠 번호
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "content_no")
     private Long id;
 

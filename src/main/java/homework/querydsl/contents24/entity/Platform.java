@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @ToString(of = {"id", "name", "link"})
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,7 +14,7 @@ import javax.persistence.*;
 public class Platform {
 
     // 플랫폼 번호(PK)
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "platform_no")
     private Long id;
 

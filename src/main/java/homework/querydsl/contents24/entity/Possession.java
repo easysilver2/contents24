@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -16,17 +15,17 @@ import static lombok.AccessLevel.PROTECTED;
 public class Possession {
 
     // 보유 번호
-    @Id @GeneratedValue(strategy = IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "possession_no")
     private Long id;
 
     // 컨텐츠 정보
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "content_no", nullable = false)
     private Content content;
 
     // 계정 정보
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_no", nullable = false)
     private Account account;
 
