@@ -67,6 +67,8 @@ class PossessionTest {
             System.out.println(">>>>>\t\tps.content = " + ps.getContent());
         }
 
-        assertThat(resultList.size()).isEqualTo(1);
+        assertThat(resultList).isNotNull();
+        assertThat(resultList.size()).isGreaterThan(0);
+        assertThat(resultList.get(0).getAccount().getAccountId()).isEqualTo("jelee@snack24h.com");
     }
 }
