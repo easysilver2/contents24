@@ -1,6 +1,7 @@
 package homework.querydsl.contents24.dto;
 
 import homework.querydsl.contents24.entity.Platform;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 @Getter @Setter
 public class PlatformRequestDto {
 
+    @ApiParam(value = "플랫폼 이름", required = true, example = "노마드코더")
     private String name;
+    @ApiParam(value = "플랫폼 링크", required = true, example = "https://nomadcoders.co/")
     private String link;
 
     public PlatformRequestDto(String name, String link) {

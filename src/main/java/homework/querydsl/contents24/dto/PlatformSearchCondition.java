@@ -1,5 +1,6 @@
 package homework.querydsl.contents24.dto;
 
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,9 @@ import lombok.Setter;
 @Getter @Setter
 public class PlatformSearchCondition {
 
+    @ApiParam(value = "[검색 조건] 플랫폼 이름", example = "인프런")
     private String platformName;
+    @ApiParam(value = "[검색 조건] 플랫폼 링크", example = "inflearn")
     private String platformLink;
 
     public static int PLATFORM_NAME_MAX_SIZE = 200;
