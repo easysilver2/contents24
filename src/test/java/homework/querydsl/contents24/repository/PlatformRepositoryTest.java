@@ -2,21 +2,31 @@ package homework.querydsl.contents24.repository;
 
 import homework.querydsl.contents24.dto.PlatformResponseDto;
 import homework.querydsl.contents24.dto.PlatformSearchCondition;
+import homework.querydsl.contents24.entity.Account;
 import homework.querydsl.contents24.entity.Platform;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Commit
 @Transactional
 @SpringBootTest
 class PlatformRepositoryTest {
 
     @Autowired PlatformRepository repository;
+    @Autowired AccountRepository accountRepository;
+    @Autowired PossessionRepository possessionRepository;
+    @Autowired ContentRepository contentRepository;
+
+    @PersistenceContext EntityManager em;
 
     @Test
     void 플랫폼_등록() {
@@ -115,6 +125,35 @@ class PlatformRepositoryTest {
 
         //then
         assertThat(repository.findById(platform.getId()).isEmpty()).isTrue();
+    }
+
+    @Test
+    void 플랫폼_순차_삭제() {
+
+        // 1.플랫폼에 해당하는 계정 번호 확인(리스트)
+        Platform platform = repository.findById(1L).get();
+        List<Long> ids = accountRepository.findByPlatform(platform.getId());
+
+        // 2.계정 번호 리스트로 보유 데이터 삭제
+        possessionRepository.deleteAllByAccount(ids);
+        /*em.createQuery("DELETE FROM Possession p WHERE p.account IN :accountNos")
+                .setParameter("accountNos", accountList)
+                .executeUpdate();*/
+
+        // 3.계정 삭제(플랫폼 번호로 삭제)
+        accountRepository.deleteAllByPlatform(platform.getId());
+        /*em.createQuery("DELETE FROM Account a WHERE a.platform.id = :platformId")
+                .setParameter("platformId", platform.getId())
+                .executeUpdate();*/
+
+        // 4.플랫폼 번호로 컨텐츠 삭제
+        contentRepository.deleteAllByPlatform(platform.getId());
+        /*em.createQuery("DELETE FROM Content c WHERE c.platform.id = : platformNo")
+                .setParameter("platformNo", platform.getId())
+                .executeUpdate();*/
+
+        // 플랫폼 삭제
+        repository.delete(platform);
     }
 
     @Test

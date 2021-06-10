@@ -25,7 +25,7 @@ public class Content {
     private String name;
 
     // 플랫폼 정보
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "platform_no")
     private Platform platform;
 

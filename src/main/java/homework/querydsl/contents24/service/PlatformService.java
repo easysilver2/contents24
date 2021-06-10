@@ -5,8 +5,10 @@ import homework.querydsl.contents24.dto.PlatformRequestDto;
 import homework.querydsl.contents24.dto.PlatformResponseDto;
 import homework.querydsl.contents24.dto.PlatformSearchCondition;
 import homework.querydsl.contents24.entity.Platform;
+import homework.querydsl.contents24.repository.AccountRepository;
 import homework.querydsl.contents24.repository.ContentRepository;
 import homework.querydsl.contents24.repository.PlatformRepository;
+import homework.querydsl.contents24.repository.PossessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,8 @@ public class PlatformService {
 
     private final PlatformRepository repository;
     private final ContentRepository contentRepository;
+    private final AccountRepository accountRepository;
+    private final PossessionRepository possessionRepository;
 
     /**
      * 플랫폼 신규 등록
@@ -95,6 +99,19 @@ public class PlatformService {
         Long platformNo = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id)).getId();
 
+        // 1.플랫폼에 해당하는 계정 번호 확인(리스트)
+        List<Long> ids = accountRepository.findByPlatform(platformNo);
+
+        // 2.계정 번호 리스트로 보유 데이터 삭제
+        possessionRepository.deleteAllByAccount(ids);
+
+        // 3.계정 삭제(플랫폼 번호로 삭제)
+        accountRepository.deleteAllByPlatform(platformNo);
+
+        // 4.플랫폼 번호로 컨텐츠 삭제
+        contentRepository.deleteAllByPlatform(platformNo);
+
+        // 5.플랫폼 삭제
         repository.deleteById(platformNo);
 
         return platformNo;
