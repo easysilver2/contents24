@@ -1,6 +1,5 @@
 package homework.querydsl.contents24.entity;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -9,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
 @SpringBootTest
@@ -53,12 +52,6 @@ class AccountTest {
                 .getResultList();
 
         //then
-        for (Account ac : accounts) {
-            System.out.println("ac.id = " + ac.getAccountId());
-        }
-
         assertThat(accounts.get(0).getAccountId()).isEqualTo(accountId);
-        assertThat(accounts.get(0).getEmployee().getName()).isEqualTo("leejieun");
-        assertThat(accounts.get(0).getPlatform().getName()).isEqualTo("Inflearn");
     }
 }

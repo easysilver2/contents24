@@ -55,7 +55,6 @@ class PlatformRepositoryTest {
         List<Platform> platforms = repository.findAll();
 
         //then
-        assertThat(platforms.size()).isEqualTo(2);
         assertThat(platforms.get(0).getName()).isEqualTo("프로그래머스");
         assertThat(platforms.get(0).getLink()).isEqualTo("programmers.com");
     }
@@ -115,8 +114,7 @@ class PlatformRepositoryTest {
         repository.delete(platform);
 
         //then
-        List<Platform> platforms = repository.findAll();
-        assertThat(platforms.size()).isEqualTo(0);
+        assertThat(repository.findById(platform.getId()).isEmpty()).isTrue();
     }
 
     @Test
