@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 플랫폼 컨트롤러
  */
-@Api()
 @RequiredArgsConstructor
 @RequestMapping("/platforms")
 @RestController

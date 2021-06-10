@@ -1,13 +1,19 @@
 package homework.querydsl.contents24.dto;
 
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 컨텐츠 검색 조건 파라미터 클래스
+ */
 @Getter @Setter
 public class ContentSearchCondition {
+
+    @ApiParam(value = "[검색 조건] 플랫폼 이름", example = "인프런")
     private String platformName;
+    @ApiParam(value = "[검색 조건] 컨텐츠 이름", example = "실전")
     private String contentName;
-    private String accountId;
 
     public static final int PLATFORM_NAME_MAX_SIZE = 200;
     public static final int CONTENT_NAME_MAX_SIZE = 200;

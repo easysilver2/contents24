@@ -1,8 +1,9 @@
 package homework.querydsl.contents24.service;
 
-import homework.querydsl.contents24.dto.ContentRequestDto;
+import homework.querydsl.contents24.dto.ContentCreateRequestDto;
 import homework.querydsl.contents24.dto.ContentResponseDto;
 import homework.querydsl.contents24.dto.ContentSearchCondition;
+import homework.querydsl.contents24.dto.ContentUpdateRequestDto;
 import homework.querydsl.contents24.entity.Account;
 import homework.querydsl.contents24.entity.Content;
 import homework.querydsl.contents24.entity.Platform;
@@ -31,7 +32,7 @@ public class ContentService {
      * @param requestDto
      * @return
      */
-    public Long register(ContentRequestDto requestDto) {
+    public Long register(ContentCreateRequestDto requestDto) {
         //플랫폼 조회
         Platform platform = platformRepository.findById(requestDto.getPlatformNo())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" +
@@ -84,7 +85,7 @@ public class ContentService {
      * @param requestDto
      * @return updated id
      */
-    public Long update(Long id, ContentRequestDto requestDto) {
+    public Long update(Long id, ContentUpdateRequestDto requestDto) {
         Content content = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 컨텐츠입니다. contentNo=" + id));
 

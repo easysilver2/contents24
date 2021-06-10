@@ -1,12 +1,11 @@
 package homework.querydsl.contents24.entity;
 
-import homework.querydsl.contents24.dto.ContentRequestDto;
+import homework.querydsl.contents24.dto.ContentUpdateRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.PROTECTED;
 
 @ToString(of = {"id", "name"})
@@ -16,7 +15,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Content {
 
     // 컨텐츠 번호
-    @Id @GeneratedValue(strategy = IDENTITY)
+    @Id @GeneratedValue
     @Column(name = "content_no")
     private Long id;
 
@@ -25,7 +24,7 @@ public class Content {
     private String name;
 
     // 플랫폼 정보
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "platform_no")
     private Platform platform;
 
@@ -37,7 +36,7 @@ public class Content {
         }
     }
 
-    public Content update(ContentRequestDto requestDto) {
+    public Content update(ContentUpdateRequestDto requestDto) {
         this.name = requestDto.getName();
         return this;
     }
