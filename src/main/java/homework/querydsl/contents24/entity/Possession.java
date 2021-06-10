@@ -21,12 +21,12 @@ public class Possession {
     private Long id;
 
     // 컨텐츠 정보
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "content_no", nullable = false)
     private Content content;
 
     // 계정 정보
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "account_no", nullable = false)
     private Account account;
 

@@ -23,12 +23,12 @@ public class Account {
     private String accountId;
 
     // 플랫폼 정보
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "platform_no", nullable = false)
     private Platform platform;
 
     // 사원 정보
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = LAZY)
     @JoinColumns({
             @JoinColumn(name = "dept_no", nullable = false),
             @JoinColumn(name = "employee_no", nullable = false)
