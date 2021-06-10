@@ -71,7 +71,6 @@ class ContentRepositoryTest {
         List<Content> contents = repository.findAll();
 
         //then
-        assertThat(contents.size()).isEqualTo(2);
         assertThat(contents.get(0).getName()).isEqualTo("실전! Spring Data JPA");
         assertThat(contents.get(0).getPlatform().getName()).isEqualTo("인프런");
     }
@@ -142,8 +141,7 @@ class ContentRepositoryTest {
         repository.delete(content);
 
         //then
-        List<Content> contents = repository.findAll();
-        assertThat(contents.size()).isEqualTo(0);
+        assertThat(repository.findById(content.getId()).isEmpty()).isTrue();
     }
 
     @Test
@@ -200,7 +198,6 @@ class ContentRepositoryTest {
         List<ContentResponseDto> result = repository.search(condition);
 
         //then
-        assertThat(result.size()).isEqualTo(1);
         assertThat(result.get(0).getName()).isEqualTo(contentName);
     }
 
