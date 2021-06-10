@@ -15,4 +15,9 @@ public interface PossessionRepository extends JpaRepository<Possession, Long> {
     @Transactional
     @Query("DELETE FROM Possession p WHERE p.account.id IN :ids")
     void deleteAllByAccount(@Param("ids") List<Long> accountIds);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Possession p WHERE p.content.id = :id")
+    void deleteAllByContent(@Param("id") Long contentNo);
 }

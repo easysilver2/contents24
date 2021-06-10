@@ -10,6 +10,7 @@ import homework.querydsl.contents24.entity.Platform;
 import homework.querydsl.contents24.repository.AccountRepository;
 import homework.querydsl.contents24.repository.ContentRepository;
 import homework.querydsl.contents24.repository.PlatformRepository;
+import homework.querydsl.contents24.repository.PossessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ public class ContentService {
     private final ContentRepository repository;
     private final PlatformRepository platformRepository;
     private final AccountRepository accountRepository;
+    private final PossessionRepository possessionRepository;
 
     /**
      * 컨텐츠 신규 등록
@@ -101,6 +103,10 @@ public class ContentService {
         Long contentId = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 컨텐츠입니다. contentNo=" + id)).getId();
 
+        // 1.보유 테이블의 데이터 삭제
+        possessionRepository.deleteAllByContent(contentId);
+
+        // 2.컨텐츠 삭제
         repository.deleteById(contentId);
 
         return contentId;
