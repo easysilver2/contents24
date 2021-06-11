@@ -15,12 +15,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class ContentService {
 
@@ -34,6 +36,7 @@ public class ContentService {
      * @param requestDto
      * @return
      */
+    @Transactional
     public Long register(ContentCreateRequestDto requestDto) {
         //플랫폼 조회
         Platform platform = platformRepository.findById(requestDto.getPlatformNo())
@@ -87,11 +90,12 @@ public class ContentService {
      * @param requestDto
      * @return updated id
      */
+    @Transactional
     public Long update(Long id, ContentUpdateRequestDto requestDto) {
         Content content = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 컨텐츠입니다. contentNo=" + id));
 
-        return repository.save(content.update(requestDto)).getId();
+        return content.update(requestDto).getId();
     }
 
     /**
@@ -99,6 +103,7 @@ public class ContentService {
      * @param id
      * @return deleted id
      */
+    @Transactional
     public Long delete(Long id) {
         Long contentId = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 컨텐츠입니다. contentNo=" + id)).getId();

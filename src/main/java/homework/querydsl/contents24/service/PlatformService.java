@@ -13,12 +13,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class PlatformService {
 
@@ -32,6 +34,7 @@ public class PlatformService {
      * @param requestDto
      * @return
      */
+    @Transactional
     public Long register(PlatformRequestDto requestDto) {
         return repository.save(requestDto.toEntity()).getId();
     }
@@ -80,6 +83,7 @@ public class PlatformService {
      * @param requestDto
      * @return id
      */
+    @Transactional
     public Long update(Long id, PlatformRequestDto requestDto) {
         Platform platform = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id));
@@ -95,6 +99,7 @@ public class PlatformService {
      * @param id
      * @return id
      */
+    @Transactional
     public Long deleteById(Long id) {
         Long platformNo = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id)).getId();
