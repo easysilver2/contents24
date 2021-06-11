@@ -28,26 +28,9 @@ public class PlatformRepositoryCustomImpl implements PlatformRepositoryCustom {
     }
 
     /**
-     * 다중 파라미터 조회
-     * @param condition
-     * @return
-     */
-    @Override
-    public List<PlatformResponseDto> search(PlatformSearchCondition condition) {
-        return queryFactory
-                .select(Projections.bean(PlatformResponseDto.class,
-                        platform.id,
-                        platform.name,
-                        platform.link))
-                .from(platform)
-                // 동적 조건 부여(플랫폼명, 링크, 없으면 전체 조회)
-                .where(nameEq(condition.getPlatformName()),
-                       linkLike(condition.getPlatformLink()))
-                .fetch();
-    }
-
-    /**
-     * 페이징 포함 다중 파라미터 조회
+     * 플랫폼 검색 조회
+     * 검색 조건: 이름, 링크 (없을 경우 전체 조회)
+     * 이름 오름차순으로 정렬
      * @param condition
      * @param pageable
      * @return
@@ -61,8 +44,12 @@ public class PlatformRepositoryCustomImpl implements PlatformRepositoryCustom {
                     platform.name,
                     platform.link))
                 .from(platform)
+                //동적 조건 처리(이름, 링크)
                 .where(nameEq(condition.getPlatformName()),
                         linkLike(condition.getPlatformLink()))
+                //정렬
+                .orderBy(platform.name.asc())
+                //페이징 처리
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -73,12 +60,12 @@ public class PlatformRepositoryCustomImpl implements PlatformRepositoryCustom {
         return new PageImpl<>(content, pageable, total);
     }
 
-    /* 플랫폼명 검색 조건 추가 */
+    /* 플랫폼명 Equal 조건 */
     private BooleanExpression nameEq(String platformName) {
         return platformName != null ? platform.name.eq(platformName) : null;
     }
 
-    /* 링크 검색 조건 추가 */
+    /* 링크 Like 조건 */
     private Predicate linkLike(String platformLink) {
         return platformLink != null ? platform.link.contains(platformLink) : null;
     }

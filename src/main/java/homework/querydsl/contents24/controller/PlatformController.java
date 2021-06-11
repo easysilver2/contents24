@@ -3,7 +3,6 @@ package homework.querydsl.contents24.controller;
 import homework.querydsl.contents24.dto.PlatformRequestDto;
 import homework.querydsl.contents24.dto.PlatformSearchCondition;
 import homework.querydsl.contents24.service.PlatformService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -42,11 +41,12 @@ public class PlatformController {
      * @return
      */
     @ApiOperation(value = "플랫폼 목록 조회",
-                  notes = "플랫폼 목록을 조회합니다. 검색 조건이 없을 경우 전체 조회되며 페이징 처리를 하여 보여줍니다.")
+                  notes = "플랫폼명 오름차순으로 정렬하여 조회합니다. \n" +
+                          "검색 조건이 없을 경우 전체 조회되며 페이징 처리를 하여 보여줍니다.")
     @GetMapping("/")
     public ResponseEntity list(PlatformSearchCondition condition, Pageable pageable) {
         condition.checkValidation();
-        return new ResponseEntity<>(service.search(condition, pageable), HttpStatus.OK);
+        return new ResponseEntity(service.search(condition, pageable), HttpStatus.OK);
     }
 
     /**

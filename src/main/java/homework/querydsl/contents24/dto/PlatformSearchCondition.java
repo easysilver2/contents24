@@ -10,9 +10,9 @@ import lombok.Setter;
 @Getter @Setter
 public class PlatformSearchCondition {
 
-    @ApiParam(value = "[검색 조건] 플랫폼 이름", example = "인프런")
+    @ApiParam(value = "[검색 조건] 플랫폼 이름")
     private String platformName;
-    @ApiParam(value = "[검색 조건] 플랫폼 링크", example = "inflearn")
+    @ApiParam(value = "[검색 조건] 플랫폼 링크")
     private String platformLink;
 
     public static int PLATFORM_NAME_MAX_SIZE = 200;

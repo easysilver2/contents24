@@ -6,6 +6,9 @@ import homework.querydsl.contents24.entity.Platform;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Commit;
 
 import javax.persistence.EntityManager;
@@ -163,13 +166,22 @@ class PlatformRepositoryTest {
                 .link("test.com")
                 .build());
 
-        //when
+        repository.save(Platform.builder()
+                .name("테스트2")
+                .link("test2.com")
+                .build());
+
         PlatformSearchCondition condition = new PlatformSearchCondition();
-        condition.setPlatformName("테스트");
-        List<PlatformResponseDto> platforms = repository.search(condition);
+        //condition.setPlatformName("테스트");
+        condition.setPlatformLink("test");
+        Pageable pageable = PageRequest.of(0, 10);
+
+        //when
+        Page<PlatformResponseDto> platforms = repository.search(condition, pageable);
 
         //then
-        assertThat(platforms.size()).isEqualTo(1);
-        assertThat(platforms.get(0).getLink()).isEqualTo("test.com");
+        assertThat(platforms.getTotalElements()).isEqualTo(2);
+        assertThat(platforms.getTotalPages()).isEqualTo(1);
+        assertThat(platforms.getContent().get(0).getName()).isEqualTo("테스트");
     }
 }
