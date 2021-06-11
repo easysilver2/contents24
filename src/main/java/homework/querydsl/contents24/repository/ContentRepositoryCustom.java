@@ -12,9 +12,6 @@ import java.util.List;
  */
 public interface ContentRepositoryCustom {
 
-    /* 다중 조건 검색 */
-    List<ContentResponseDto> search(ContentSearchCondition condition);
-
     /* 다중 조건 검색(페이징) */
     Page<ContentResponseDto> search(ContentSearchCondition condition, Pageable pageable);
 

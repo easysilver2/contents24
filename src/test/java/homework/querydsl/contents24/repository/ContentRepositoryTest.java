@@ -6,6 +6,9 @@ import homework.querydsl.contents24.entity.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -177,14 +180,14 @@ class ContentRepositoryTest {
     @Test
     void 다중_조건_검색() {
         //given
-        String platformName = "인프런";
+        String platformName = "테스트 플랫폼";
         Platform platform = Platform.builder()
                 .name(platformName)
-                .link("Inflearn.com")
+                .link("test.com")
                 .build();
         platformRepository.save(platform);
 
-        String contentName = "실전! Querydsl";
+        String contentName = "테스트 컨텐츠";
         repository.save(Content.builder()
                 .name(contentName)
                 .platform(platform)
@@ -194,11 +197,15 @@ class ContentRepositoryTest {
         condition.setContentName(contentName);
         condition.setPlatformName(platformName);
 
+        Pageable pageable = PageRequest.of(0, 10);
+
         //when
-        List<ContentResponseDto> result = repository.search(condition);
+        Page<ContentResponseDto> result = repository.search(condition, pageable);
 
         //then
-        assertThat(result.get(0).getName()).isEqualTo(contentName);
+        assertThat(result.getTotalElements()).isEqualTo(1);
+        assertThat(result.getTotalPages()).isEqualTo(1);
+        assertThat(result.getContent().get(0).getName()).isEqualTo(contentName);
     }
 
     @Test

@@ -10,14 +10,15 @@ import lombok.Setter;
 @Getter @Setter
 public class ContentSearchCondition {
 
-    @ApiParam(value = "[검색 조건] 플랫폼 이름", example = "인프런")
+    @ApiParam(value = "[검색 조건] 플랫폼 이름")
     private String platformName;
-    @ApiParam(value = "[검색 조건] 컨텐츠 이름", example = "실전")
+    @ApiParam(value = "[검색 조건] 컨텐츠 이름")
     private String contentName;
 
     public static final int PLATFORM_NAME_MAX_SIZE = 200;
     public static final int CONTENT_NAME_MAX_SIZE = 200;
 
+    /* 입력 값 유효성 검증 메서드 */
     public void checkValidation() {
         if (platformName != null && platformName.length() > PLATFORM_NAME_MAX_SIZE)
             throw new IllegalArgumentException("플랫폼명 최대 글자수를 초과하였습니다.");

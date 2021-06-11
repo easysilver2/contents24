@@ -42,7 +42,7 @@ public class ContentController {
      * @return Page<ContentResponseDto>
      */
     @ApiOperation(value = "컨텐츠 목록 조회",
-                  notes = "컨텐츠 목록을 조회합니다.\n" +
+                  notes = "컨텐츠 이름 오름차순으로 정렬하여 조회합니다.\n" +
                           "검색 조건이 없을 경우 전체 조회되며 페이징 처리를 하여 보여줍니다.")
     @GetMapping("/")
     public ResponseEntity list(ContentSearchCondition condition, Pageable pageable) {
