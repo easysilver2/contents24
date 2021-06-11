@@ -2,7 +2,6 @@ package homework.querydsl.contents24.repository;
 
 import homework.querydsl.contents24.dto.PlatformResponseDto;
 import homework.querydsl.contents24.dto.PlatformSearchCondition;
-import homework.querydsl.contents24.entity.Account;
 import homework.querydsl.contents24.entity.Platform;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,15 +159,17 @@ class PlatformRepositoryTest {
     void 플랫폼_검색() {
         //given
         repository.save(Platform.builder()
-                .name("인프런")
-                .link("inflearn.com")
+                .name("테스트")
+                .link("test.com")
                 .build());
 
-        List<PlatformResponseDto> platforms = repository.search(new PlatformSearchCondition());
-        for (PlatformResponseDto platform : platforms) {
-            System.out.println("\t\t>>>>> platform.name = " + platform.getName());
+        //when
+        PlatformSearchCondition condition = new PlatformSearchCondition();
+        condition.setPlatformName("테스트");
+        List<PlatformResponseDto> platforms = repository.search(condition);
 
-        }
+        //then
+        assertThat(platforms.size()).isEqualTo(1);
+        assertThat(platforms.get(0).getLink()).isEqualTo("test.com");
     }
-
 }
