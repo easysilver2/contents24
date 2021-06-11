@@ -19,5 +19,6 @@ public class ContentResponseDto {
     public ContentResponseDto(Content entity) {
         this.id = entity.getId();
         this.name = entity.getName();
+        this.platformName = entity.getPlatform().getName();
     }
 }
